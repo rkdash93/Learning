@@ -1,0 +1,88 @@
+   
+<Player>:
+    size: self.size
+
+    canvas.before:
+        Rectangle:
+            size: self.size
+            pos: 50,root.center_y + 70
+            source: 'fox_skate.png'
+
+<Obstacle_ball>:
+    size: self.size
+    canvas:
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'obs_ball.png'
+
+<Obstacle_cloud>:
+    size: self.size
+    canvas:
+        Rectangle:
+            size: 200,60
+            pos: self.pos
+            source: 'cloud.png'
+
+<Obstacle_bird>:
+    size: self.size
+    canvas:
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'bird.png'                        
+
+<FoxJumpGame>:
+    id: FoxJumpGame
+    pl: fox
+    obs_ball: ball
+    obs_cloud: cloud
+    obs_bird: bird
+    size: self.size
+    canvas.before:
+          
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'sky.png'
+        Rectangle:
+            size: root.width,300
+            pos: 0,self.height - 600
+            texture: self.bg_texture
+    Label:
+        font_size: 25
+        pos:30,0
+        top: root.top - 50
+        text: "  Score: " + str(root.obs_ball.score)
+
+    Button:    
+        text:"Click to start the game"        
+        pos:350,350
+        background_color: [0,0,0,0]
+        font_size: 30
+        size:50,30
+        on_release: 
+            root.load_game(1)
+            self.disabled = True 
+            self.opacity = 0            
+                                   
+    Player: 
+        id: fox
+
+    Obstacle_ball:
+        id: ball
+        center_y: self.parent.center_y  - 170
+        center_x: self.parent.center_x  + 400 
+
+    Obstacle_cloud:
+        id: cloud
+        center_y: self.parent.center_y  + 10
+        center_x: self.parent.center_x  + 100
+
+    Obstacle_bird:   
+        id: bird
+        center_y: self.parent.center_y  + 150
+        center_x: self.parent.center_x  + 100
+
+        
+   

@@ -1,0 +1,108 @@
+<Holeobs>:
+    canvas:
+        Rectangle:
+            size:120,120
+            pos:self.pos
+            source:"hole_obs.png"
+<Barrobs>:
+    canvas:
+        Rectangle:
+            size:120,120
+            pos:self.pos
+            source:"barr_obs.png" 
+<Birdobs>:
+    canvas:
+        Rectangle:
+            size:90,90
+            pos:self.pos
+            source:"bird.png"                       
+
+
+FloatLayout:
+    Background:                
+        id: Background
+        hole_obs: hole
+        bar_obs: barricade
+        bird_obs: bird
+        pl: player
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: "sky.png"
+            Rectangle:
+                size: self.width,self.height *3/4
+                pos: self.pos
+                texture: self.bg_texture
+
+          
+
+    Player:
+        id: player
+        size_hint: None,None
+        size: 120,120
+        pos: 30,270
+        source: "fox_skate.png"
+
+    Label:
+        size_hint: None,None
+        font_size: 25
+        pos:30,0
+        top: root.top - 50
+        text: "  Score: " + str(Background.score)
+
+    Barrobs:
+        id: barricade
+        size_hint: None,None
+        size: 120,120
+        pos: root.width * 3/4 + 100,40
+
+
+    Button:
+        size_hint: None,None
+        font_size: 35
+        size:40,30
+        background_color: [0,0,0,0]        
+        pos: root.center_x,root.height - 100
+        text: "Start"
+        on_release:
+            app.start_game()
+            self.disabled = True 
+            self.opacity = 0              
+            
+
+    Holeobs:
+        id: hole
+        size_hint: None,None
+        size: 120,120
+        pos: root.width/4 + 100,40
+
+    Birdobs:
+        id: bird
+        size:90,90
+        size_hint: None,None
+        pos: root.width/2 + 100,250
+    Button:
+        size_hint: None,None
+        size:60,40
+        pos: root.width - 100,root.height - 100
+        text: "Close"
+        on_release:
+            quit()
+    Button:
+        size_hint: None,None
+        size:60,40
+        pos: root.width - 200,root.height - 100
+        text: "Restart"
+        on_release:
+            Background.restart()
+
+                                          
+         
+
+
+                                 
+                                                 
+
+
+    
