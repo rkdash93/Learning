@@ -6,6 +6,7 @@ import os,signal
 import subprocess
 import psutil
 import webbrowser
+import requests,json
 from pyttsx3.drivers import sapi5
 from playsound import playsound
 from datetime import datetime
@@ -77,6 +78,40 @@ def paheli():
             return 'None','None'
          
     return sel_p,cmd
+
+def weather(CITY):
+
+    # base URL
+    BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
+    # API key 
+    API_KEY = "cb900a9371acdd246d7a78da15c7a143"
+    # upadting the URL
+    URL = BASE_URL + "q=" + CITY + "&appid=" + API_KEY
+    # HTTP request
+    response = requests.get(URL)
+    # checking the status code of the request
+    if response.status_code == 200:
+        # getting data in the json format
+        data = response.json()
+        # getting the main dict block
+        main = data['main']
+        # getting temperature
+        temperature = round(main['temp']) - 273
+        # getting the humidity
+        humidity = main['humidity']
+        # getting the pressure
+        pressure = main['pressure']
+        # weather report
+        report = data['weather']
+        speak('Here is the weather details for ' + CITY)
+        weather_data = f"\n{CITY:-^30}\nTemperature: {temperature} degrees celsius\nHumidity: {humidity}\nPressure: {pressure}\nWeather Report: {report[0]['description']}"
+        #time.sleep(2)
+        return weather_data
+    else:
+        # showing the error message
+        error_msg='Error in the HTTP request'
+        return error_msg
+
 if __name__ == "__main__":        
     while True:
         greet = wake()
@@ -132,6 +167,12 @@ if __name__ == "__main__":
                 elif 'how are you doing' in cmd:
                     speak('I am doing good. Thanks!')
                     print('I am doing good. Thanks!')
+                elif 'what is the weather in' in cmd:
+                    cmd = cmd.replace('what is the weather in ', '')
+                    weather_data = weather(cmd)
+                    print(weather_data)
+                    speak (weather_data)
+                                        
                 elif 'play music' in cmd:
                     speak('Playing music....')
                     print('Playing music....')
@@ -192,8 +233,7 @@ if __name__ == "__main__":
                     speak('Searching in google')   
                     print('Searching in google.....')
                     webbrowser.open('https://www.google.com/search?q=' + str(cmd) )                                        
-
-                                        
+                    
                 elif 'bye' in cmd:
                     break                         
 
