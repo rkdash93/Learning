@@ -6,10 +6,13 @@ import os,signal
 import subprocess
 import psutil
 import webbrowser
-import requests,json
+import requests,json,urllib,re
 from pyttsx3.drivers import sapi5
 from playsound import playsound
 from datetime import datetime
+import time
+import vlc
+import pafy
 
 
 
@@ -177,27 +180,62 @@ if __name__ == "__main__":
                     speak('Playing music....')
                     print('Playing music....')
                     music_files = os.listdir('.\\audio')
-                    audio = random.choice(music_files)
-                    os.startfile(f'.\\audio\\{audio}')
-                    #shell_process = subprocess.Popen([f'.\\audio\\{audio}'],shell=True)
-                    #parent = psutil.Process(shell_process.pid)
-                    #parent = psutil.Process(shell_process.pid)
-                    #print(parent.pid)
-                    #while(parent.children() == []):
-                        #continue
-                    #children = parent.children(recursive=True)                    
-                    #children = parent.children(recursive=True)
-                    #print(children)
-                    #child_pid = children[0].pid
-                    #print(child_pid)
+                    audio = '.\\audio\\' + str(random.choice(music_files))
+                    # creating a vlc instance
+                    vlc_instance = vlc.Instance()
+                    # creating a media player
+                    player = vlc_instance.media_player_new()
+                    # creating a media
+                    media = vlc_instance.media_new(audio)
+                    # setting media to the player
+                    player.set_media(media)
+                    # play the video 
+                    player.play()
+                    # wait time
+                    time.sleep(5)                    
+                elif 'pause music' in cmd:
+                    speak('Pausing music....')
+                    print('Pausing music....')
+                    player.pause()                    
+                elif 'resume music' in cmd:
+                    speak('playing music....')
+                    print('playing music....')
+                    player.play()                     
                     
                 elif 'stop music' in cmd:
                     speak('Stopping music....')
                     print('Stopping music....')
-                    #subprocess.check_output("Taskkill /PID %d /F" % child_pid)
-                    #os.system("taskkill  /F /pid "+str(shell_process.pid))
-                    os.system("taskkill /f /im  WWAHost.exe")
-                    #print(children)                   
+                    player.stop()
+                elif 'play' in cmd:
+                    cmd=cmd.replace('play ','')
+                    song='Playing ' + cmd
+                    speak(song)
+                    print(song + '....')                    
+                    cmd=cmd.replace(' ','+')
+                    youtube = urllib.request.urlopen('https://www.youtube.com/results?search_query='+cmd)
+                    #print(youtube.read().decode())
+                    video_ids = re.findall(r'watch\?v=(\S{11})',youtube.read().decode())
+                    print(video_ids)
+                    url = "https://www.youtube.com/watch?v=" + str(video_ids[0])
+                    print(url)
+                    video = pafy.new(url)
+                    best = video.getbestaudio()
+                    media = vlc.MediaPlayer(best.url)
+                    media.play()
+                    time.sleep(7)
+                elif 'pause' in cmd:
+                    speak('Pausing music....')
+                    print('Pausing music....')
+                    media.pause()                    
+                elif 'resume' in cmd:
+                    speak('playing music....')
+                    print('playing music....')
+                    media.play()                     
+                    
+                elif 'stop' in cmd:
+                    speak('Stopping music....')
+                    print('Stopping music....')
+                    media.stop()                                                                 
                 elif 'tell me about' in cmd:
                     speak('Searching wikipedia')
                     print('Searching wikipedia....')
@@ -209,6 +247,29 @@ if __name__ == "__main__":
                     except Exception as e:
                         print('No results found')
                         speak('No results found')
+                elif 'agenda for today' in cmd:
+                    if os.stat("agenda.txt").st_size == 0:
+                        print('You have no agenda for today')
+                        speak('You have no agenda for today')
+                    else:                                        
+                        f = open("agenda.txt", "r")
+                        agenda = f.read()
+                        f.close()
+                        print('You have following agenda for today')
+                        speak('You have following agenda for today')                        
+                        print(agenda)
+                        speak(agenda)
+                elif 'news' in cmd:
+                    url = ('https://newsapi.org/v2/top-headlines?country=in&apiKey=ad16f11716144daa93f97bf92e78c550')
+                    response = requests.get(url).json()['articles']
+                    news_article = []
+                    print('Here are top 5 headlines for today')
+                    speak('Here are top 5 headlines for today')
+                    for i in response:
+                        news_article.append(i['title'])
+                    for j in range(5):
+                        print(j+1,news_article[j])
+                        speak(news_article[j])                                                
                 elif 'what is' in cmd:
                     speak('Searching wikipedia')
                     print('Searching wikipedia....')
@@ -232,8 +293,7 @@ if __name__ == "__main__":
                     cmd = cmd.replace('search ','')
                     speak('Searching in google')   
                     print('Searching in google.....')
-                    webbrowser.open('https://www.google.com/search?q=' + str(cmd) )                                        
-                    
+                    webbrowser.open('https://www.google.com/search?q=' + str(cmd) )                    
                 elif 'bye' in cmd:
                     break                         
 
