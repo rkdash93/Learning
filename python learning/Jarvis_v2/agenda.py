@@ -1,3 +1,5 @@
+import time
+from datetime import datetime
 from speak import *
 
 def agenda_func(task):
@@ -51,4 +53,44 @@ def agenda_func(task):
         speak(agenda)
         f.close()
 
-    return(1)                   
+    return(1)
+
+def remind_func(task):
+    if task == 'remind':
+        print('What should I remind?')
+        speak('What should I remind?')
+        speech_audio = '.\\sound\Speech On.wav'
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            playsound(speech_audio)
+            print('Listening....')
+            r.adjust_for_ambient_noise(source)
+            r.pause_threshold = 1
+            audio = r.listen(source)
+            try:
+                cmd = r.recognize_google(audio,key=GOOGLE_API_KEY,language='en-in')
+                agenda_line = cmd
+                print(agenda_line)
+                cmd = 'What should be the time'
+                print(cmd)
+                speak(cmd)
+                with sr.Microphone() as source:
+                    playsound(speech_audio)
+                    print('Listening....')
+                    r.adjust_for_ambient_noise(source)
+                    r.pause_threshold = 1
+                    audio = r.listen(source)
+                    try:
+                        cmd = r.recognize_google(audio,key=GOOGLE_API_KEY,language='en-in')
+                        rem_time = cmd
+                        print(cmd)
+                        cmd = "Reminder added for " + agenda_line + ' at '+ cmd
+                        print(cmd)
+                        speak(cmd)
+                        rem_time = datetime.strptime(rem_time.replace('.',''),'%I:%M %p')
+                    except Exception as e:
+                        print('No reminder was added')
+                        speak('No reminder was added')                            
+            except Exception as e:
+                pass
+        return agenda_line,rem_time                           

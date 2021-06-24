@@ -13,31 +13,39 @@ import vlc
 import pafy
 
 
-music_play = 0 
+music_play = 0
+input_time = '12:00 AM'
+input_time = datetime.strptime(input_time,'%I:%M %p') 
 
 
 if __name__ == "__main__":
     #Reset agenda file everyday
-    time = time.strftime("%d-%m-%Y")
-    print(time)
+    today = time.strftime("%d-%m-%Y")
+    print(today)
     is_today = 1
     f = open('agenda.txt','r')
     agenda = f.readlines()[0:1]
     for line in agenda:
-        if time > line.rstrip():
+        if today > line.rstrip():
             is_today = 0       
     f.close()
     if is_today == 0:
         f = open(r"agenda.txt","w")
-        f.writelines(time)
+        f.writelines(today)
         f.close()
-    #Listen to user        
+    #Listen to user
+           
     while True:
         greet=wake()
         if music_play == 1:            
-            player.play()
-            if player.is_playing == False:
-                music_play = 0         
+            if player.is_playing() == 0:
+                player.play()
+        if input_time.hour == datetime.now().hour:
+            if input_time.minute == datetime.now().minute:
+                rem_task = 'You have to ' + remind_tsk + ' now'
+                print(rem_task)
+                speak(rem_task)
+                time.sleep (3)                       
                      
         if 'jarvis' in greet.lower() or 'jarjis' in greet.lower() or 'javed' in greet.lower() or 'charges' in greet.lower() or 'service' in greet.lower():
             try:
@@ -53,7 +61,7 @@ if __name__ == "__main__":
                     print(time)
                     speak(time)
                 elif 'date' in cmd:
-                    date = time.strftime("%A %d-%B-%Y")
+                    date = datetime.now().strftime("%A %d-%B-%Y")
                     date = "today is " + date
                     print(date)
                     speak(date)                                         
@@ -96,21 +104,22 @@ if __name__ == "__main__":
                     youtube = urllib.request.urlopen('https://www.youtube.com/results?search_query='+cmd)
                     #print(youtube.read().decode())
                     video_ids = re.findall(r'watch\?v=(\S{11})',youtube.read().decode())
-                    print(video_ids)
+                    #print(video_ids)
                     url = "https://www.youtube.com/watch?v=" + str(video_ids[0])
-                    print(url)
+                    #print(url)
                     video = pafy.new(url)
                     best = video.getbestaudio()
                     player = vlc.MediaPlayer(best.url)
-                    player.audio_set_volume(50)
+                    #player.audio_set_volume(50)
                     player.play()
                     music_play = 1
                     time.sleep(7)                           
                 elif 'pause' in cmd:
                     speak('Pausing music....')
                     print('Pausing music....')
-                    player.pause()
-                    music_play = 0                    
+                    while player.is_playing() == 1:
+                        player.pause()
+                    music_play = 0                     
                 elif 'resume' in cmd:
                     speak('playing music....')
                     print('playing music....')
@@ -219,6 +228,8 @@ if __name__ == "__main__":
                     else:
                         speak('galat jawaab')
                         print('galat jawab')
+                elif 'reminder' in cmd:
+                    remind_tsk,input_time = remind_func('remind')
                 elif 'bye' in cmd:
                     break
             except:
