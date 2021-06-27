@@ -8,7 +8,6 @@ from speak import *
 from weather import *
 from paheli import *
 from agenda import *
-import time
 import vlc
 import pafy
 
@@ -20,8 +19,7 @@ input_time = datetime.strptime(input_time,'%I:%M %p')
 
 if __name__ == "__main__":
     #Reset agenda file everyday
-    today = time.strftime("%d-%m-%Y")
-    print(today)
+    today = strftime("%d-%m-%Y")
     is_today = 1
     f = open('agenda.txt','r')
     agenda = f.readlines()[0:1]
@@ -33,8 +31,10 @@ if __name__ == "__main__":
         f = open(r"agenda.txt","w")
         f.writelines(today)
         f.close()
-    #Listen to user
-           
+    
+    print('Online and ready')
+    speak('Online and ready')
+    #Listen to user       
     while True:
         greet=wake()
         if music_play == 1:            
@@ -45,7 +45,8 @@ if __name__ == "__main__":
                 rem_task = 'You have to ' + remind_tsk + ' now'
                 print(rem_task)
                 speak(rem_task)
-                time.sleep (3)                       
+                playsound('.\\sound\\Alarm.wav')
+                sleep (3)                       
                      
         if 'jarvis' in greet.lower() or 'jarjis' in greet.lower() or 'javed' in greet.lower() or 'charges' in greet.lower() or 'service' in greet.lower():
             try:
@@ -56,10 +57,10 @@ if __name__ == "__main__":
                     speak('I am Jarvis, your voice assistant')
                     print('I am Jarvis, your voice assistant')
                 elif 'time now' in cmd or 'time' in cmd:
-                    time = time.strftime('%I:%M %p')
-                    time = "time is " + time
-                    print(time)
-                    speak(time)
+                    now_time = datetime.now().strfitme('%I:%M %p')
+                    now_time = "time is " + now_time
+                    print(now_time)
+                    speak(now_time)
                 elif 'date' in cmd:
                     date = datetime.now().strftime("%A %d-%B-%Y")
                     date = "today is " + date
@@ -92,7 +93,7 @@ if __name__ == "__main__":
                     player.play()
                     music_play = 1
                     # wait time
-                    time.sleep(1)       
+                    sleep(1)       
 
 
                 elif 'play' in cmd:
@@ -110,10 +111,10 @@ if __name__ == "__main__":
                     video = pafy.new(url)
                     best = video.getbestaudio()
                     player = vlc.MediaPlayer(best.url)
-                    #player.audio_set_volume(50)
+                    player.audio_set_volume(50)
                     player.play()
                     music_play = 1
-                    time.sleep(7)                           
+                    sleep(7)                           
                 elif 'pause' in cmd:
                     speak('Pausing music....')
                     print('Pausing music....')
@@ -187,7 +188,9 @@ if __name__ == "__main__":
                     speak('bahut badhiya')
                     print('Bahut badhiya')
                 elif 'kya chal raha hai' in cmd:
-                    res_list = ['Fog chal raha hai','Bus chill kar raha hoo','reading news, to get news updates please say Jarvis what is the news for today']
+                    res_list = ['Fog chal raha hai',
+                    'Bus chill kar raha hoo',
+                    'reading news, to get news updates please say Jarvis what is the news for today']
                     res = random.choice(res_list)
                     speak(res)
                     print(res)                    
@@ -209,25 +212,12 @@ if __name__ == "__main__":
                     player.play()
                     music_play = 1
                     # wait time
-                    time.sleep(1)
-                elif 'paheli poochho' in cmd:                    
+                    sleep(1)
+                elif 'paheli poochho' in cmd or 'ek paheli pucho' in cmd:                    
                     speak('Paheli samjhoh aur jawaab doh')
                     print('Paheli samjho aur jawab do')    
-                    sel_p,cmd=paheli()
-                    print(sel_p)
-                    print(cmd)
-                    if sel_p == 'din may soye, raat may roye. Jitnaa roye utna khoye. Bolo kon hai ye' and (cmd =='mombatti' or cmd =='candle'):
-                        speak('sahi jawaab')
-                        print('sahi jawaab')
-                    elif sel_p == 'ek thaal moti say bharaa, sir kay oopar awndhaa dharaa; Jaisay jaisay thaal phiray, moti ussay ek naa geeray' and cmd == 'aasman' or cmd == 'akash':
-                        speak('sahi jawaab')
-                        print('sahi jawaab')
-                    elif sel_p == 'Aisa likhiye sabd banaaye, phal phool aur mithai ban jaaye' and cmd == 'gulab jamun':    
-                        speak('sahi jawaab')
-                        print('sahi jawaab')
-                    else:
-                        speak('galat jawaab')
-                        print('galat jawab')
+                    paheli()
+
                 elif 'reminder' in cmd:
                     remind_tsk,input_time = remind_func('remind')
                 elif 'bye' in cmd:
