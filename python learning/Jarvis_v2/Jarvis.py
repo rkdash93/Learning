@@ -8,6 +8,7 @@ from speak import *
 from weather import *
 from paheli import *
 from agenda import *
+from whatsapp_msg import *
 import vlc
 import pafy
 
@@ -190,7 +191,8 @@ if __name__ == "__main__":
                 elif 'kya chal raha hai' in cmd:
                     res_list = ['Fog chal raha hai',
                     'Bus chill kar raha hoo',
-                    'reading news, to get news updates please say Jarvis what is the news for today']
+                    'reading news, to get news updates please say Jarvis what is the news for today',
+                    'Listening to music on youtube. To listen to your favorite music, please say Jarvis play song name']
                     res = random.choice(res_list)
                     speak(res)
                     print(res)                    
@@ -220,6 +222,28 @@ if __name__ == "__main__":
 
                 elif 'reminder' in cmd:
                     remind_tsk,input_time = remind_func('remind')
+                elif 'add' in cmd:
+                    s_cmd = cmd.replace('add ','')
+                    print('Should I add ' + s_cmd + ' to the shopping list?')
+                    speak('Should I add ' + s_cmd + ' to the shopping list?')
+                    shop_cmd = task().lower()
+                    if shop_cmd == 'yes':
+                        f = open(r"shopping_list.txt","a")
+                        f.writelines("\n"+ s_cmd)
+                        f.close()
+                        print('Added ' + s_cmd + ' to the shopping list')
+                        speak('Added ' + s_cmd + ' to the shopping list')
+                elif 'send shopping list' in cmd:
+                    s_cmd = cmd.replace('add ','')
+                    print('Should I send the shopping list on whatsapp?')
+                    speak('Should I send the shopping list on whatsapp?')
+                    send_cmd = task().lower()
+                    if  'yes' in send_cmd or 'yash' in send_cmd:
+                        send_shop()
+                        
+                elif 'shopping list' in cmd:
+                    read_shop()
+                                                                                                  
                 elif 'bye' in cmd:
                     break
             except:
