@@ -1,0 +1,16 @@
+{"intents": [
+    {"tag": "greeting",
+     "patterns": ["hello jarvis","hi jarvis","hey jarvis"],
+     "responses": ["hello user","welcome again","how can I help you?"]  
+    },
+    {"tag": "music",
+        "patterns": ["play","pause","stop"],
+        "respnonses": ["ok","sure"]
+    },   
+    {"tag": "exit",
+     "patterns": ["bye","goodbye"],
+     "respnonses": ["Adios","See you next time","goodbye"]
+    }
+    ]
+
+}
