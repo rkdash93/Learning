@@ -41,8 +41,11 @@ def task(param):
         #r.energy_threshold = 100
         r.pause_threshold = 1
         playsound(speech_audio)
-        print('Listening....')        
-        audio = r.listen(source,timeout=5,phrase_time_limit=4)    
+        print('Listening....')
+        try:        
+            audio = r.listen(source,timeout=5,phrase_time_limit=4)
+        except:
+            pass
         try:
             cmd = r.recognize_google(audio,key=GOOGLE_API_KEY,language='en-in')
             print(cmd)
@@ -51,9 +54,19 @@ def task(param):
                 return tag,resp,cmd
             else:
                 return "","",cmd    
-        except Exception as e:
+        
+        except sr.UnknownValueError:           
             speak('I do not understand')
+            print('I do not understand')
             return "I do not understand","",""
+        except sr.RequestError:
+            print("Unable to connect to internet")
+            speak("Unable to connect to internet")
+            return "","",""
+        except:
+            print("I do not understand")
+            speak("I do not understand")
+            return "","",""                          
 
 
 #speak("Badey badey desho may ayisi chotii chotii baathey ... hotii rehthii hai")        
