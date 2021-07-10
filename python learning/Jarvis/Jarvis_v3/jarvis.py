@@ -1,6 +1,6 @@
 from speak import *
 print("Jarvis is getting initialized. Please wait...........")
-# speak("Jarvis is getting initialized. Please wait...........")
+speak("Jarvis is getting initialized. Please wait...........")
 
 import vlc
 import pafy
@@ -26,7 +26,7 @@ input_time = datetime.strptime('12:00 AM','%I:%M %p')
 agenda_today = datetime.now().strftime("%d-%m-%Y")
 agenda_today = datetime.strptime(agenda_today,"%d-%m-%Y")
 is_today = 1
-f = open('agenda.txt','r')
+f = open('.\\data\\agenda.txt','r')
 agenda = f.readlines()[0:1]
 for line in agenda:
     line = datetime.strptime(line.strip(),"%d-%m-%Y")
@@ -34,14 +34,14 @@ for line in agenda:
         is_today = 0     
 f.close()
 if is_today == 0:
-    f = open(r"agenda.txt","w")
+    f = open(r".\\data\\agenda.txt","w")
     f.writelines(agenda_today.strftime('%d-%m-%Y'))
     f.close()
-# daily_task()
+daily_task()
 # main execution    
 if __name__ == "__main__":
     print("Jarvis is online and ready")
-    # speak("Jarvis is online and ready")
+    speak("Jarvis is online and ready")
     while True:
         tag = wake()
         # continue playing music if already playing

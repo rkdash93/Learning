@@ -13,7 +13,7 @@ def agenda_func(tsk):
         speak(cmd_agenda)
         par1,par2,cmd_conf = task('agenda')
         if 'yes' in cmd_conf or 'yash' in cmd_conf.lower():
-            f = open(r"agenda.txt","a")
+            f = open(r".\\data\\agenda.txt","a")
             f.writelines("\n"+agenda_line)
             f.close()
             print("Agenda added")
@@ -23,7 +23,7 @@ def agenda_func(tsk):
             speak("No agenda added")            
 
     if tsk == 'read':
-        f = open('agenda.txt')
+        f = open('.\\data\\agenda.txt')
         agenda = f.read()[10:]
         if len(agenda) > 0:
             print('You have following agenda for today')

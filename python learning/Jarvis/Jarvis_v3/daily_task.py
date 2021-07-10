@@ -9,7 +9,7 @@ import urllib
 def daily_task():
     hour = int(datetime.now().hour)
     date = datetime.now().strftime('%A, %d-%B-%Y')
-    cityfile = open('curr_city.txt')
+    cityfile = open('.\\data\\curr_city.txt')
     CITY = cityfile.read()
     cityfile.close()
 
