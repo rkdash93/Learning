@@ -1,17 +1,18 @@
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 import nltk
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
 from tensorflow.keras.models import load_model
-model = load_model('jarvis_model.h5')
+model = load_model('.\\trainer_model\\jarvis_model.h5')
 import json
 import random
 
-intents = json.loads(open('intents.json').read())
-words = pickle.load(open('words.pkl','rb'))
-classes = pickle.load(open('classes.pkl','rb'))
+intents = json.loads(open('.\\trainer_model\\intents.json').read())
+words = pickle.load(open('.\\trainer_model\\words.pkl','rb'))
+classes = pickle.load(open('.\\trainer_model\\classes.pkl','rb'))
 
 
 
@@ -65,11 +66,13 @@ def jarvis_response(text):
     res = getResponse(ints, intents)
     return res
 
-while True:
-    st = input("Enter a string: ")
-    tag,resp = jarvis_response(st)
-    print(tag)
-    print(resp)
+# while True:
+#     st = input("Enter a string: ")
+#     tag,resp = jarvis_response(st)
+#     print(tag)
+#     print(resp)
 
+# predict= predict_class("javed", model)
+# print(predict)
 
 

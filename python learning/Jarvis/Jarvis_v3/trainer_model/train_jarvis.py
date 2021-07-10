@@ -1,17 +1,14 @@
+import os
 import nltk
 from nltk.stem import WordNetLemmatizer
 import json
 import pickle
 import numpy as np
-#import tensorflow.python.keras.utils.generic_utils
-#from keras import models
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation, Dropout
 from tensorflow.keras.optimizers import SGD
 import random
-
-# nltk.download('punkt')
-# nltk.download('wordnet')
+#from speak import speak
 
 
 
@@ -102,12 +99,17 @@ sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 #fitting and saving the model 
-hist = model.fit(np.array(train_x), np.array(train_y), epochs=300,batch_size=5,verbose=1)
+hist = model.fit(np.array(train_x), np.array(train_y), epochs=200,batch_size=5,verbose=1)
 model.save('jarvis_model.h5', hist)
 
-print(documents)
+#print(documents)
+
+
 
 print("model created")
+print('training is completed. Rebooting....')
+# speak('training is completed. Rebooting....')
+# os.startfile('jarvis.exe')
 
 
 

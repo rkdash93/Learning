@@ -33,7 +33,7 @@ def wake():
         return "None"
     return tag
 
-def task():
+def task(param):
     speech_audio = '.\\sound\Speech On.wav'
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -42,13 +42,19 @@ def task():
         r.pause_threshold = 1
         playsound(speech_audio)
         print('Listening....')        
-        audio = r.listen(source,timeout=5, phrase_time_limit=5)    
+        audio = r.listen(source,timeout=5,phrase_time_limit=4)    
         try:
             cmd = r.recognize_google(audio,key=GOOGLE_API_KEY,language='en-in')
             print(cmd)
-            tag,resp = jarvis_response(cmd)
-            return tag,resp,cmd
+            if param == 'general':    
+                tag,resp = jarvis_response(cmd)
+                return tag,resp,cmd
+            else:
+                return "","",cmd    
         except Exception as e:
             speak('I do not understand')
             return "I do not understand","",""
+
+
+#speak("Badey badey desho may ayisi chotii chotii baathey ... hotii rehthii hai")        
          

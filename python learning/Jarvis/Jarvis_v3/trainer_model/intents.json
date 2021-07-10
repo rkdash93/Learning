@@ -4,7 +4,7 @@
         "responses": ["I do not understand"]  
        },    
     {"tag": "wake",
-     "patterns": ["jarvis","javed","jarjis","charges","4 piece","24"],
+     "patterns": ["jarvis","javed","jarjis","charges","4 piece","24","service","jharpis","java"],
      "responses": ["wake"]  
     },
     {"tag": "well being",
@@ -12,9 +12,9 @@
         "responses": ["I am doing great. Thanks","Just chilling out","Listening to songs on youtube"]  
     },
     {"tag": "tasks",
-        "patterns": ["how can you help me","what can you do for me","how can you assist me","what are the things that you can do"],
+        "patterns": ["how can you help me","what can you do for me","how can you assist me","what are the things that you can do","what can you do"],
         "responses": ["I can play your favourite music, add reminders, give weather updates, read news headlines",
-        "I can create agenda, add items to shopping list, set alarm for you, play your favourite song from youtube"]  
+        "I can create agenda, set alarm for you, play your favourite song from youtube","search in wikipediea"]  
     },        
     {"tag": "play music",
         "patterns": ["play"],
@@ -45,10 +45,35 @@
                     "what is happening today","news for today","news","today's news"],
         "responses": ["Here are the top 5 headlines for today"]  
     },
+    {"tag": "time",
+        "patterns": ["what is the time now","time","time now","tell me the time now"],
+        "responses": ["time is: "]  
+    },
+    {"tag": "today",
+        "patterns": ["what is the date today","today","today's date","what is today's date","date for today"],
+        "responses": ["today is: "]  
+    },
+    {"tag": "agenda",
+        "patterns": ["what is the agenda for today","tell me the agenda for today","today's agenda","Read out my agenda","what else do I have"],
+        "responses": ["Here is your agenda for today"]  
+    },
+    {"tag": "add agenda",
+        "patterns": ["add new agenda"],
+        "responses": ["Ok","adding agenda"]  
+    },                      
     {"tag": "alarm",
         "patterns": ["set alarm","add alarm","set reminder","add a reminder"],
         "responses": ["setting up reminder"]  
     },
+    {"tag": "application",
+        "patterns": ["open","launch","start"],
+        "responses": ["ok"]  
+    },
+    {"tag": "self train",
+        "patterns": ["train yourself","start training","initiate training","khud ko train karo","training complete karo",
+                    "training start karo"],
+        "responses": ["initializing training process"]  
+    },    
     {"tag": "random conversation1",
         "patterns": ["marry me","will you marry me","fuck you","go to hell","I will kill you","I hate you"],
         "responses": ["I know, you didn't mean it","Did you say anything","You are kidding. right?"]  
@@ -57,19 +82,31 @@
         "patterns": ["what do you eat","what do you drink","do you sleep","can you sing"],
         "responses": ["you know what, even if I want, I can't"]  
     },
+    {"tag": "random conversation3",
+        "patterns": ["I like you","you are the best","you are genious","your are nice"],
+        "responses": ["thank you","thanks a lot","thanks"]  
+    },
+    {"tag": "random conversation4",
+        "patterns": ["are you there","can you hear me","still alive","still online","are you listening"],
+        "responses": ["alive and kicking","always ready to help you"]  
+    },        
     {"tag": "play music hindi",
         "patterns": ["gana sunao","gana bajao"],
-        "responses": ["abhih sunatah hoo"]
+        "responses": ["abhih soonaatah hoo"]
     },
     {"tag": "paheli",
         "patterns": ["paheli poocho","ek paheli pucho"],
-        "responses": ["paheli suno aur jawaab do"]
+        "responses": ["Paheli samjhoh aur jawaab doh"]
     },
     {"tag": "dialogue",
         "patterns": ["dialogue sunao","ek dialogue sunao","movie dialogue","play a movie dialogue",
                     "say one movie dialogue","tell a movie dialogue","say one dialogue from a movie",
                     "ek famous dialogue sunao","say a famous movie dialogue"],
-        "responses": ["dialogue"]
+        "responses": ["Kayhtay hai, agar, kisii cheez ko dil say chaaho ... toh poori kaainaat ussay tumsay milaanay ki kosshish mein lug jaati hai",
+                    "Rishteyh may to hum tumhaaray baap lagtay hay, naam hai, shayhnshaah",
+                    "Jali ko aag kehtay hai, bhuji ko raakh kehtay hai… jees raakh say baarood bunay, oosay Vishwanath kehtay hai",
+                    "Don ko pakadna mooskeel hee nahi, namoomkeen hai",
+                    "Kithnayy aadmee thhey"]
     },             
     {"tag": "hindi conversation1",
         "patterns": ["kya chal raha hai"],
