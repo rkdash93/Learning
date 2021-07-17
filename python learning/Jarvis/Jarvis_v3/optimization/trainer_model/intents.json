@@ -1,0 +1,129 @@
+{"intents": [
+    {"tag": "unknown",
+        "patterns": [""],
+        "responses": ["I do not understand"]  
+       },    
+    {"tag": "wake",
+     "patterns": ["jarvis","javed","jarjis","charges","4 piece","24","service","jharpis","java"],
+     "responses": ["wake"]  
+    },
+    {"tag": "well being",
+        "patterns": ["how are you","how are you doing","whats up","what is going on?","how's it going"],
+        "responses": ["I am doing great. Thanks","Just chilling out","Listening to songs on youtube"]  
+    },
+    {"tag": "tasks",
+        "patterns": ["how can you help me","what can you do for me","how can you assist me","what are the things that you can do","what can you do"],
+        "responses": ["I can play your favourite music, add reminders, give weather updates, read news headlines",
+        "I can create agenda, set alarm for you, play your favourite song from youtube, search in wikipedia"]  
+    },        
+    {"tag": "#play music\nurl = y_search(task_cmd,'e')\nvideo = pafy.new(url)\nbest = video.getbestaudio()\nplayer = vlc.MediaPlayer(best.url)\nplayer.audio_set_volume(70)\nplayer.play()\nmusic_play = 1\nsleep(5)",
+        "patterns": ["play"],
+        "responses": ["playing music"]
+    },
+    {"tag": "#pause music\nwhile player.is_playing() == 1:player.pause()\nmusic_play = 0\nsleep(0.1)",
+        "patterns": ["pause","pause music","pause song"],
+        "responses": ["pausing music"]
+    },
+    {"tag": "#resume music\nplayer.play()\nmusic_play = 1\nsleep(0.1)",
+        "patterns": ["resume","resume music","resume song"],
+        "responses": ["resuming music"]
+    },    
+    {"tag": "#stop music\nplayer.stop()\nmusic_play = 0\nsleep(0.1)",
+        "patterns": ["stop","stop music","stop song"],
+        "responses": ["stopping music"]
+    },
+    {"tag": "search(task_cmd)",
+        "patterns": ["what is","who is","who the hell is","who the heck is","tell me about"],
+        "responses": ["searching"]  
+       },
+    {"tag": "weather(task_cmd)",
+        "patterns": ["what is the weather in","weather","tell me about the weather"],
+        "responses": ["here are the weather details"]  
+    },
+    {"tag": "news()",
+        "patterns": ["what is the news for today","what are today's headlines","what is going on today","Read news",
+                    "what is happening today","news for today","news","today's news"],
+        "responses": ["Here are the top 5 headlines for today"]  
+    },
+    {"tag": "#time\ntime_now = datetime.now().strftime('%I:%M %p')\nprint(time_now)\nspeak(time_now)",
+        "patterns": ["what is the time now","time","time now","tell me the time now"],
+        "responses": ["time is: "]  
+    },
+    {"tag": "#today\ntoday_date = datetime.now().strftime('%A, %d-%B-%Y')\nprint(today_date)\nspeak(today_date)",
+        "patterns": ["what is the date today","today","today's date","what is today's date","date for today"],
+        "responses": ["today is: "]  
+    },
+    {"tag": "agenda\nagenda_func('read')",
+        "patterns": ["what is the agenda for today","tell me the agenda for today","today's agenda","Read out my agenda","what else do I have"],
+        "responses": ["Here is your agenda for today"]  
+    },
+    {"tag": "#add agenda\nagenda_func('write')",
+        "patterns": ["add new agenda"],
+        "responses": ["Ok","adding agenda"]  
+    },                      
+    {"tag": "remind_tsk,input_time = remind_func('remind')",
+        "patterns": ["set alarm","add alarm","set reminder","add a reminder"],
+        "responses": ["setting up reminder"]  
+    },
+    {"tag": "launch_app(task_cmd)",
+        "patterns": ["open","launch","start"],
+        "responses": ["ok"]  
+    },
+    {"tag": "eval",
+        "patterns": ["what is the value of","How much is"],
+        "responses": ["give me a moment"]  
+    },    
+    {"tag": "self train",
+        "patterns": ["train yourself","start training","initiate training","khud ko train karo","training complete karo",
+                    "training start karo"],
+        "responses": ["initializing training process"]  
+    },    
+    {"tag": "random conversation1",
+        "patterns": ["marry me","will you marry me","fuck you","go to hell","I will kill you","I hate you"],
+        "responses": ["I know, you didn't mean it","Did you say anything","You are kidding. right?"]  
+    },
+    {"tag": "random conversation2",
+        "patterns": ["what do you eat","what do you drink","do you sleep","can you sing"],
+        "responses": ["you know what, even if I want, I can't"]  
+    },
+    {"tag": "random conversation3",
+        "patterns": ["I like you","you are the best","you are genious","your are nice"],
+        "responses": ["thank you","thanks a lot","thanks"]  
+    },
+    {"tag": "random conversation4",
+        "patterns": ["are you there","can you hear me","still alive","still online","are you listening"],
+        "responses": ["alive and kicking","always ready to help you"]  
+    },        
+    {"tag": "#play music hindi\nurl = y_search(task_cmd,'e')\nvideo = pafy.new(url)\nbest = video.getbestaudio()\nplayer = vlc.MediaPlayer(best.url)\nplayer.audio_set_volume(70)\nplayer.play()\nmusic_play = 1\nsleep(5)",
+        "patterns": ["gana sunao","gana bajao"],
+        "responses": ["abhih soonaatah hoo"]
+    },
+    {"tag": "paheli()",
+        "patterns": ["paheli poocho","ek paheli pucho"],
+        "responses": ["Paheli samjhoh aur jawaab doh"]
+    },
+    {"tag": "dialogue",
+        "patterns": ["dialogue sunao","ek dialogue sunao","movie dialogue","play a movie dialogue",
+                    "say one movie dialogue","tell a movie dialogue","say one dialogue from a movie",
+                    "ek famous dialogue sunao","say a famous movie dialogue"],
+        "responses": ["Kayhtay hai, agar, kisii cheez ko dil say chaaho ... toh poori kaainaat ussay tumsay milaanay ki kosshish mein lug jaati hai",
+                    "Rishteyh may to hum tumhaaray baap lagtay hay, naam hai, shayhnshaah",
+                    "Jali ko aag kehtay hai, bhuji ko raakh kehtay hai… jees raakh say baarood bunay, oosay Vishwanath kehtay hai",
+                    "Don ko pakadna mooskeel hee nahi, namoomkeen hai",
+                    "Kithnayy aadmee thhey"]
+    },             
+    {"tag": "hindi conversation1",
+        "patterns": ["kya chal raha hai"],
+        "responses": ["Fog chal raha hai","Bus Chill kar raha hoo","Sub badhiyah chal raha hai"]  
+    },
+    {"tag": "hindi conversation2",
+        "patterns": ["kaise ho","kya haal hai","kaisa chal raha hai","kya kar rahe ho"],
+        "responses": ["Bus Chill kar raha hoo","Sub badhiyah chal raha hai"]  
+    },                                                 
+    {"tag": "exit",
+     "patterns": ["bye","goodbye"],
+     "responses": ["Adios","See you next time","goodbye"]
+    }
+]
+
+}
