@@ -4,7 +4,7 @@ import button
 pygame.init()
 
 clock = pygame.time.Clock()
-fps = 8
+fps = 60
 
 # set screen
 screen_width = 800
@@ -26,7 +26,7 @@ enemy_select = ""
 arena_select = ""
 player_hit = False
 # bg_arena = ".\\background\\Chinatown.gif"
-bg_arena = "white_bg.png"
+bg_arena = ".\\background\\dragon.png"
 
 # Define game window
 screen = pygame.display.set_mode((screen_width,screen_height))
@@ -331,13 +331,22 @@ player_list = [".\\select_player\\ryu1.png",".\\select_player\\ken1.png"]
 # en_right_butn =  button.Button(600,100, right_sel)
 # en_left_butn =  button.Button(450,100, left_sel)
 
-fight_butn = button.Button(340,430, butn_img)
+# fight_butn = button.Button(340,430, butn_img)
 
 landing_screen_btn = True
 strt_bt_img = pygame.image.load(".\\buttons\\start_game.png")
 start_butn = button.Button(320,270, strt_bt_img)
 opt_bt_img = pygame.image.load(".\\buttons\\option.png")
 opt_butn = button.Button(320,350, opt_bt_img)
+
+player_sel_screen = False
+arena_sel_screen = False
+confirmation_screen = False
+next_bt_img = pygame.image.load(".\\buttons\\next.png")
+next_butn = button.Button(400,410, next_bt_img)
+back_bt_img = pygame.image.load(".\\buttons\\back.png")
+back_butn = button.Button(200,410, back_bt_img)
+fight_butn = button.Button(400,410, strt_bt_img)
 # sel_ryu = ".\\select_player\\ryu1.png"
 
 # player_list = [".\\select_player\\ryu1.png",".\\select_player\\ken1.png"]
@@ -345,20 +354,23 @@ opt_butn = button.Button(320,350, opt_bt_img)
 
 
 
-def select_options():
+def select_player_options():
     global player_name
     global enemy_name
-    global arena_select
-    global bg_arena
-    disp_button = True
+    global player_sel_screen
+    # global arena_select
+    # global bg_arena
+    # disp_button = True
+    # player_sel_screen = True
 
-    if disp_button == True:
+    # if disp_button == True:
+    if player_sel_screen == True:
         # pl_btn
         pl_butn_list = []
         en_butn_list = []
-        arena_butn_list = []
+        
         player_list = [".\\select_options\\player\\ryu1.png",".\\select_options\\player\\ken1.png"]
-        arena_list = [".\\select_options\\arena\\Graveyard.jpg",".\\select_options\\arena\\Chinatown.gif",".\\select_options\\arena\\Future.jpg"]
+        
         # Select Player
         x_pos = 0
         for i in player_list:
@@ -385,10 +397,21 @@ def select_options():
                 print(temp,"selected")
                 enemy_name = temp.replace("1.png","")
 
+
+def select_arena_options():
+    global arena_select
+    global bg_arena 
+    global arena_sel_screen
+    arena_sel_screen = True
+
+    # if disp_button == True:
+    if arena_sel_screen == True:
+        arena_butn_list = []
+        arena_list = [".\\select_options\\arena\\Graveyard.jpg",".\\select_options\\arena\\Chinatown.gif",".\\select_options\\arena\\Future.jpg"]               
         # select arena
         x_pos = 70
         for i in arena_list:
-            btn = button.Button(x_pos,230,pygame.image.load(i))
+            btn = button.Button(x_pos,100,pygame.image.load(i))
             x_pos += 220
             # btn.draw(screen)
             arena_butn_list.append(btn)
@@ -427,31 +450,96 @@ while run:
     if landing_screen_btn == True:
         if start_butn.draw(screen):
             landing_screen_btn = False
-            disp_button = True
+            player_sel_screen = True
+            # select_player_options()
+            # disp_button = True
+            # select_options()
+            # # create instances based on player selection
+            # pl = Player(100, 340, player_name, 100,0)
+            # en = Player(500, 340, enemy_name, 100,1)
+
+            # pl_health = Healthbar(70, 50, pl.health, pl.maxhealth)
+            # en_health = Healthbar(500, 50, en.health, en.maxhealth)            
             
         if opt_butn.draw(screen):
             print("Clicked")            
         
         draw_text("Street Fighter", font5, green, 100, 100)
 
+    # player selection screen
+    if player_sel_screen == True:
+        draw_text("Player", font2, green, 150, 10)
+        draw_text("Opponent", font2, green, 530, 10)
+        draw_text("Vs", font5, violet, 360, 100)
+        draw_text(player_name, font2, red, 170, 180)
+        draw_text(enemy_name, font2, red, 560, 180)        
+        select_player_options()
+        if next_butn.draw(screen):
+            # select_arena_options()
+            print("Next clicked")
+            
+            player_sel_screen = False
+            arena_sel_screen = True
+            
+            
+            
+        if back_butn.draw(screen):
+            print("back clicked")
+            player_sel_screen = False
+            landing_screen_btn = True
+
+    # Arena selection screen
+    if arena_sel_screen == True:
+        select_arena_options()
+        draw_text(arena_select, font2, red, 320, 350)       
+        
+        if next_butn.draw(screen):
+            print("Next clicked")
+            arena_sel_screen = False
+            confirmation_screen = True
+            
+        if back_butn.draw(screen):
+            print("back clicked")
+            player_sel_screen = True
+            arena_sel_screen = False            
+            
+
+
+
+
     # Load player
 
     # disp_button = False
 
-    if disp_button == True: # check display button flag
+    if confirmation_screen == True: # check display button flag
 
-        select_options()
         # create instances based on player selection
         pl = Player(100, 340, player_name, 100,0)
         en = Player(500, 340, enemy_name, 100,1)
 
         pl_health = Healthbar(70, 50, pl.health, pl.maxhealth)
         en_health = Healthbar(500, 50, en.health, en.maxhealth)
+        draw_text(player_name.upper(), font2, green, 260, 30)
+        button.Button(250,70,pygame.image.load(f".\\select_options\\player\\{player_name}1.png")).draw(screen)
+        draw_text("Vs", font5, green, 340, 100)
+        draw_text(enemy_name.upper(), font2, green, 470, 30)
+        button.Button(450,70,pygame.image.load(f".\\select_options\\player\\{enemy_name}1.png")).draw(screen)
+        temp = bg_arena.replace(".\\background\\","")
+        draw_text(temp.replace(temp[-4:],""), font2, green, 350, 200)
+        button.Button(300,250,pygame.image.load(f".\\select_options\\arena\\{temp}")).draw(screen)
 
-        if fight_butn.draw(screen):
+
+        if next_butn.draw(screen):
+            print("Next clicked")
+            fps = 8
             bg_img = pygame.image.load(bg_arena)
             game_start = True
-            disp_button = False # stop displaying start button
+            confirmation_screen = False # stop displaying start button
+            
+        if back_butn.draw(screen):
+            print("back clicked")
+            confirmation_screen = False
+            arena_sel_screen = True               
 
     pl.update_anim()
     en.update_anim()        
@@ -459,11 +547,15 @@ while run:
     # if game_start == True:
     if game_start:
         load_bg()
-        draw_text("Player", font2, violet, 100, 10)
-        draw_text("Opponent", font2, violet, 590, 10)
+        if bg_arena == ".\\background\\Chinatown.gif":
+            draw_text("Player", font2, black, 100, 10)
+            draw_text("Opponent", font2, black, 590, 10)
+        else:
+            draw_text("Player", font2, green, 100, 10)
+            draw_text("Opponent", font2, green, 590, 10)            
         draw_text("Fight", font4, red, 360, 35)
-        draw_text(player_state, font, red, 100, 55)
-        draw_text(enemy_state, font, red, 650, 55)               
+        draw_text(player_state, font, red, 100, 60)
+        draw_text(enemy_state, font, red, 650, 60)               
         pl.draw()
         en.draw()
         pl_health.draw(pl.health,0)
@@ -601,6 +693,7 @@ while run:
         en.action = 6
         en.rect.y = 360
         en.alive = False
+        draw_text("You won!!!", font5, green, 250, 180)
          
 
     if pl.health == 0:
@@ -610,6 +703,7 @@ while run:
         pl.action = 6
         pl.alive = False
         en.alive = False # stop enemy movement
+        draw_text("You lost!!!", font5, green, 250, 180)
                                                                                                
     pygame.display.update()
 pygame.quit()
